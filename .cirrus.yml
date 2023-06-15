@@ -1,0 +1,29 @@
+env:
+    GH_USN: "ENCRYPTED[c0add602651db0e14dd05fa6a6d8ca48bf88d2d5b0bc7c9188d1536ab2d4c1e07bfdb9e37e7e651022c892984a205c8e]"
+    GH_EMAIL: "ENCRYPTED[12a20ad24f7ecc628d6f8abf6a083c6c18f204c354f682eb45e2960d4b695c60e8357789879d686cdfe0e612aa3b61e3]"
+    GH_CRED: "ENCRYPTED[9112530cec5e3350a47545ead556859dbefceec2341033d4f664e1e248660d32e2d755e59fdace64e14e36ae2737255e]"
+    RCLONE_CONFIG: "ENCRYPTED[d3a904277c8a66599539f375114b167a52d9e3ca8155632d6a1f4f5df98e6826d260f3c5994129229c156085942f0303]"
+
+task:
+  name: "Android Build"
+  timeout_in: 480m
+  container:
+      image: fr05t77/ubuntu:jammy
+      cpu: 8
+      memory: 32G
+
+  rclone_setup_script:
+      - mkdir -p ~/.config/rclone
+      - echo "$RCLONE_CONFIG" > ~/.config/rclone/rclone.conf
+
+  git_setup_script:
+      - git config --global user.name "$GH_USN"
+      - git config --global user.email "$GH_EMAIL"
+      - echo "https://$GH_USN:$GH_CRED@github.com" > ~/.git-credentials
+      - git config --global credential.helper "store --file ~/.git-credentials"
+
+  ccache_stats_script:
+      - ccache -s
+
+  build_start_script:
+      - bash main.sh
