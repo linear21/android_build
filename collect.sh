@@ -16,4 +16,4 @@ sleep 1m
 tar --use-compress-program="pigz -k -1 " -cf ccache.tar.gz ~/.ccache
 
 # Upload compressed ccache.
-rclone copy ccache.tar.gz mrvadrv-1:ci-test -P
+rclone copy ccache.tar.gz $RCLONE_NAME:$RCLONE_FOLDER -P

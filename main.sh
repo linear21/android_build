@@ -7,7 +7,7 @@
 
 # Download previous ccache.
 cd ~/
-rclone copy mrvadrv-1:ci-test/ccache.tar.gz -P
+rclone copy $RCLONE_NAME:$RCLONE_FOLDER/ccache.tar.gz . -P
 time tar xf ccache.tar.gz
 
 # Set up ccache.
@@ -20,6 +20,10 @@ export CCACHE_EXEC="$(which ccache)"
 export USE_CCACHE=1
 export CCACHE_COMPRESS=1
 ccache --max-size=20G
+
+# Set up rclone vars.
+export RCLONE_NAME="$(sed 's/\\[//g; s/\\]//g;' ~/.config/rclone/rclone.conf | head -n 1)"
+export RCLONE_FOLDER="ci-test"
 
 # Go to Android rootdir folder.
 cd ~/android || return
