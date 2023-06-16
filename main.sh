@@ -53,8 +53,8 @@ repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync 
 . build/envsetup.sh
 
 # Auto-select build method.
-CCACHE_HITSIZE="$(ccache -s | grep -i "hit" | grep -Eo '[0-9.]+%')"
-if [ "${CCACHE_HITSIZE%.*}" -ge "85" ]; then
+CCACHE_HITSIZE="$(ccache -s | grep -i "hit" | grep -Eo '[0-9.]+%' | rev | cut -c2- | rev)"
+if [ "$CCACHE_HITSIZE" -ge "85" ]; then
     bash build.sh
 else
     bash collect.sh
