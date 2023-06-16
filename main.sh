@@ -43,7 +43,7 @@ repo init --no-repo-verify --depth=1 -u https://github.com/PixelOS-AOSP/manifest
 git clone --depth=1 https://github.com/frstprjkt/local_manifests.git -b ci-test .repo/local_manifests
 
 # Start sync local source.
-repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j$(nproc --all)
+repo sync -q -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j$(nproc --all)
 
 # [WORKAROUND]
 # We may will get an fatal error on first sync, re-sync local source to fix broken sync.
