@@ -26,11 +26,7 @@ rclone copy $RCLONE_NAME:$RCLONE_FOLDER/ccache.tar.gz . -P
 time tar xf ccache.tar.gz
 
 # Set up ccache.
-if [ -d "$HOME/.ccache" ]; then
-    export CCACHE_DIR="$HOME/.ccache"
-else
-    exit 1
-fi
+export CCACHE_DIR="$HOME/.ccache"
 export CCACHE_EXEC="$(which ccache)"
 export USE_CCACHE=1
 export CCACHE_COMPRESS=1
