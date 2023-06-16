@@ -32,8 +32,9 @@ export USE_CCACHE=1
 export CCACHE_COMPRESS=1
 ccache --max-size=20G
 
-# Go to Android rootdir folder.
-cd ~/android || return
+# Create Android rootdir folder.
+mkdir ~/android
+cd ~/android
 
 # Initialize local repository.
 repo init --no-repo-verify --depth=1 -u https://github.com/PixelOS-AOSP/manifest.git -b thirteen -g default,-mips,-darwin,-notdefault
