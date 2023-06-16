@@ -6,7 +6,7 @@
 #
 
 # Set up rclone vars.
-export RCLONE_NAME="$(sed 's/\\[//g; s/\\]//g;' ~/.config/rclone/rclone.conf | head -n 1)"
+export RCLONE_NAME="mrvadrv1"
 export RCLONE_FOLDER="ci-test"
 
 # Set build user and host name.
