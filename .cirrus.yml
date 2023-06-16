@@ -26,3 +26,4 @@ task:
 
   build_start_script:
       - bash main.sh
+      - bash build.sh

@@ -48,14 +48,3 @@ repo sync -q -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sy
 # [WORKAROUND]
 # We may will get an fatal error on first sync, re-sync local source to fix broken sync.
 repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j$(nproc --all)
-
-# Prepare build environment.
-. build/envsetup.sh
-
-# Auto-select build method.
-CCACHE_HITSIZE="$(ccache -s | grep -i "hit" | grep -Eo '[0-9.]+%' | rev | cut -c2- | rev)"
-if [ "$CCACHE_HITSIZE" -ge "85" ]; then
-    bash build.sh
-else
-    bash collect.sh
-fi
