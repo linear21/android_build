@@ -5,10 +5,60 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
+### Edit below this line. ###
+# Set up rclone vars.
+export RCLONE_NAME="mrvadrv1"
+export RCLONE_FOLDER="ci-test"
+
+# Set build user and host name.
+export BUILD_USERNAME="minerva"
+export BUILD_HOSTNAME="android-build"
+
+# Set up build command.
+export LUNCH_TARGET="lunch aosp_citrus-userdebug"
+export MAKE_TARGET="make bacon"
+### Edit above this line. ###
+
+# Download previous ccache.
+cd ~/
+rclone copy $RCLONE_NAME:$RCLONE_FOLDER/ccache.tar.gz . -P
+time tar xf ccache.tar.gz
+
+# Set up ccache.
+export CCACHE_DIR="$HOME/.ccache"
+export CCACHE_EXEC="$(which ccache)"
+export USE_CCACHE=1
+export CCACHE_COMPRESS=1
+ccache --max-size=20G
+
+# Create Android rootdir folder.
+mkdir ~/android
+cd ~/android
+
+### Edit below this line. ###
+# Initialize local repository.
+repo init --no-repo-verify --depth=1 -u https://github.com/PixelOS-AOSP/manifest.git -b thirteen -g default,-mips,-darwin,-notdefault
+
+# Initialize local manifest.
+git clone --depth=1 https://github.com/frstprjkt/local_manifests.git -b ci-test .repo/local_manifests
+### Edit above this line. ###
+
+# Start sync local source.
+repo sync -q -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j$(nproc --all)
+
+# [WORKAROUND]
+# We may will get an fatal error on first sync, re-sync local source to fix broken sync.
+repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j$(nproc --all)
+
+# Use all core for building.
+if [[ $MAKE_TARGET != *"mka"* ]]; then
+    export MAKE_TARGET="$MAKE_TARGET -j$(nproc --all)"
+fi
+
+## Building funtion.
 # Collect ccache.
 function collect_ccache() {
     # Start collecting ccache.
-    $LUNCH_TARGET
     $MAKE_TARGET &
     sleep 90m
     kill %1
@@ -24,7 +74,6 @@ function collect_ccache() {
 # Final build.
 function final_build() {
     # Start building.
-    $LUNCH_TARGET
     $MAKE_TARGET
 
     # Upload finished build.
@@ -38,6 +87,9 @@ function final_build() {
 
 # Prepare build environment.
 . build/envsetup.sh
+
+# Lunch a device target.
+$LUNCH_TARGET
 
 # Auto-select build method.
 CCACHE_TOTALSIZE="$(ccache -s | grep -i "cache size" | grep -Eo '[0-9.]+ %')"
