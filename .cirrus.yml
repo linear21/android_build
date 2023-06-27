@@ -1,7 +1,7 @@
 env:
-    GH_USN: "ENCRYPTED[ac16e568e1b9d2ccd2ffa61e30a7ac810aad59e4486cd08fb44eecf253aa01f8fa2d4ec118abd1cb43b554c620a2e5ba]"
-    GH_EMAIL: "ENCRYPTED[35c8e64311b201b83855fb2720579219835546f669c2237408ddb099b8840f3ce5ef976e191b3ed7f45d2df6355f8f14]"
-    GH_CRED: "ENCRYPTED[6d2e2bb42b0ea675767bfd845e6cbe879e832e812d720fbbb4d539206c0e414d9fd6a2ab82cbb295d01dec82deb4280b]"
+    GH_USN: "ENCRYPTED[180983afb8112b462a1c9a5fe32fe90f1cf93481f94cb6594d73e2dc78ae0e7ba83b69d57d664b8c61416bc6b8eb12e5]"
+    GH_EMAIL: "ENCRYPTED[b3d6c362a3f908f1f41f2c9910758b9029a0af1951f6992e190c6dba07f276d5d3f14202ceeddf90f5dbbbde8bc96398]"
+    GH_CRED: "ENCRYPTED[4c1c14481e47322d661f9e5314cb099a875e2331a10f3e472836a93163bb4802e58116d46879883d479c8fff8325c2f2]"
 
 task:
   name: "Android Build"
@@ -13,7 +13,7 @@ task:
 
   rclone_setup_script:
       - mkdir -p ~/.config/rclone
-      - curl -so ~/.config/rclone/rclone.conf https://$GH_CRED@raw.githubusercontent.com/frostg-012/misc/master/rclone.conf
+      - curl -so ~/.config/rclone/rclone.conf https://$GH_CRED@raw.githubusercontent.com/linear21/misc/master/rclone.conf
 
   git_setup_script:
       - git config --global user.name "$GH_USN"

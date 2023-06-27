@@ -7,7 +7,7 @@
 
 ### Edit below this line. ###
 # Set up rclone vars.
-export RCLONE_NAME="mrvadrv1"
+export RCLONE_NAME="drive"
 export RCLONE_FOLDER="ci-test"
 
 # Set build user and host name.
@@ -15,8 +15,8 @@ export BUILD_USERNAME="minerva"
 export BUILD_HOSTNAME="android-build"
 
 # Set up build command.
-export LUNCH_TARGET="lunch aosp_citrus-userdebug"
-export MAKE_TARGET="make bacon"
+export LUNCH_TARGET="lunch arrow_merlinx-user"
+export MAKE_TARGET="m bacon"
 ### Edit above this line. ###
 
 # Download previous ccache.
@@ -37,10 +37,10 @@ cd ~/android
 
 ### Edit below this line. ###
 # Initialize local repository.
-repo init --no-repo-verify --depth=1 -u https://github.com/PixelOS-AOSP/manifest.git -b thirteen -g default,-mips,-darwin,-notdefault
+repo init --no-repo-verify --depth=1 -u https://github.com/ArrowOS/android_manifest.git -b arrow-13.1 -g default,-mips,-darwin,-notdefault
 
 # Initialize local manifest.
-git clone --depth=1 https://github.com/frstprjkt/local_manifests.git -b ci-test .repo/local_manifests
+git clone --depth=1 https://github.com/linear21/local_manifests.git -b arrow-13.1 .repo/local_manifests
 ### Edit above this line. ###
 
 # Start sync local source.
