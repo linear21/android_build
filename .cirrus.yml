@@ -7,7 +7,7 @@ task:
   name: "Android Build"
   timeout_in: 480m
   container:
-      image: fr05t77/ubuntu:jammy
+      image: linear21/ubuntu:22
       cpu: 8
       memory: 32G
 
