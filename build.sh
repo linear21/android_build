@@ -23,13 +23,7 @@ export MAKE_TARGET="m bacon"
 cd ~/
 rclone copy $RCLONE_NAME:$RCLONE_FOLDER/ccache.tar.gz . -P
 time tar xf ccache.tar.gz
-
-# Set up ccache.
-export CCACHE_DIR="$HOME/.ccache"
-export CCACHE_EXEC="$(which ccache)"
-export USE_CCACHE=1
-export CCACHE_COMPRESS=1
-ccache --max-size=20G
+rm -rf ccache.tar.gz
 
 # Create Android rootdir folder.
 mkdir ~/android
@@ -65,7 +59,8 @@ function collect_ccache() {
 
     # Compress ccache folder.
     sleep 1m
-    tar --use-compress-program="pigz -k -1 " -cf ccache.tar.gz ~/.ccache
+    cd ~/
+    tar --use-compress-program="pigz -k -1 " -cf ccache.tar.gz .ccache
 
     # Upload compressed ccache.
     rclone copy ccache.tar.gz $RCLONE_NAME:$RCLONE_FOLDER -P
@@ -91,10 +86,18 @@ function final_build() {
 # Lunch a device target.
 $LUNCH_TARGET
 
+# Set up ccache.
+export CCACHE_DIR=~/.ccache
+export CCACHE_EXEC=$(which ccache)
+export USE_CCACHE=1
+export CCACHE_COMPRESS=1
+ccache --max-size=20G
+ccache -s
+
 # Auto-select build method.
 CCACHE_TOTALSIZE="$(ccache -s | grep -i "cache size" | grep -Eo '[0-9.]+ %')"
 CCACHE_HITSIZE="$(ccache -s | grep -i "hit" | grep -Eo '[0-9.]+%')"
-if [ "${CCACHE_TOTALSIZE%.*}" -eq "0.00" ]; then
+if [ "${CCACHE_TOTALSIZE%.*}" -eq "0" ]; then
     collect_ccache;
 else
     if [ "${CCACHE_HITSIZE%.*}" -ge "85" ]; then
