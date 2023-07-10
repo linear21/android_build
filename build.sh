@@ -31,7 +31,7 @@ cd ~/android
 
 ### Edit below this line. ###
 # Initialize local repository.
-repo init --no-repo-verify --depth=1 -u https://github.com/ArrowOS/android_manifest.git -b arrow-13.1 -g default,-mips,-darwin,-notdefault
+repo init --no-repo-verify --depth=1 -u https://github.com/ArrowOS-six/android_manifest.git -b arrow-13.1 -g default,-mips,-darwin,-notdefault
 
 # Initialize local manifest.
 git clone --depth=1 https://github.com/linear21/local_manifests.git -b arrow-13.1 .repo/local_manifests
@@ -85,6 +85,9 @@ function final_build() {
 
 # Lunch a device target.
 $LUNCH_TARGET
+
+# Repopick
+repopick -t thirteen-mtk-enhancements-arrow-13.1
 
 # Set up ccache.
 export CCACHE_DIR=~/.ccache
