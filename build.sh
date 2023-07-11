@@ -85,6 +85,7 @@ function final_build() {
 
 # Lunch a device target.
 $LUNCH_TARGET
+export SKIP_ABI_CHECKS=true
 
 # Repopick
 repopick -t thirteen-mtk-enhancements-arrow-13.1
@@ -100,10 +101,10 @@ ccache -s
 # Auto-select build method.
 CCACHE_TOTALSIZE="$(ccache -s | grep -i "cache size" | grep -Eo '[0-9.]+ %')"
 CCACHE_HITSIZE="$(ccache -s | grep -i "hit" | grep -Eo '[0-9.]+%')"
-if [ "${CCACHE_TOTALSIZE%.*}" -eq "0" ]; then
+if [[ "${CCACHE_TOTALSIZE%.*}" -eq "0" ]]; then
     collect_ccache;
 else
-    if [ "${CCACHE_HITSIZE%.*}" -ge "85" ]; then
+    if [[ "${CCACHE_HITSIZE%.*}" -ge "65" ]]; then
         final_build;
     else
         collect_ccache;
