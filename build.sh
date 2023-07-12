@@ -16,7 +16,7 @@ export BUILD_HOSTNAME="android-build"
 
 # Set up build command.
 export LUNCH_TARGET="lunch arrow_merlinx-user"
-export MAKE_TARGET="m bacon"
+export MAKE_TARGET="m bacon -j16"
 ### Edit above this line. ###
 
 # Download previous ccache.
