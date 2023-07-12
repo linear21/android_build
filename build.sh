@@ -44,11 +44,6 @@ repo sync -q -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sy
 # We may will get an fatal error on first sync, re-sync local source to fix broken sync.
 repo sync -c --no-clone-bundle --no-tags --optimized-fetch --prune --force-sync -j$(nproc --all)
 
-# Use all core for building.
-if [[ $MAKE_TARGET != *"mka"* ]]; then
-    export MAKE_TARGET="$MAKE_TARGET -j$(nproc --all)"
-fi
-
 ## Building funtion.
 # Collect ccache.
 function collect_ccache() {
