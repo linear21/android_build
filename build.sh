@@ -67,12 +67,11 @@ function final_build() {
     $MAKE_TARGET
 
     # Upload finished build.
-    BUILD_FILENAME="$(ls out/target/product/$(echo $LUNCH_TARGET | cut -d ' ' -f 2 | cut -d _ -f 2 | cut -d - -f 1)/*.zip)"
-    rclone copy $BUILD_FILENAME $RCLONE_NAME:$RCLONE_FOLDER -P
+    wget https://raw.githubusercontent.com/Sushrut1101/GoFile-Upload/master/upload.sh
+    bash upload.sh out/target/product/$(echo $LUNCH_TARGET | cut -d ' ' -f 2 | cut -d _ -f 2 | cut -d - -f 1)/*.zip
 
     # Upload recovery image build.
-    RECOVERY_FILENAME="$(ls out/target/product/$(echo $LUNCH_TARGET | cut -d ' ' -f 2 | cut -d _ -f 2 | cut -d - -f 1)/recovery.img)"
-    rclone copy $RECOVERY_FILENAME $RCLONE_NAME:$RCLONE_FOLDER -P
+    bash upload.sh out/target/product/$(echo $LUNCH_TARGET | cut -d ' ' -f 2 | cut -d _ -f 2 | cut -d - -f 1)/recovery.img
 }
 
 # Prepare build environment.
