@@ -93,8 +93,8 @@ ccache --max-size=20G
 ccache -s
 
 # Auto-select build method.
-CCACHE_TOTALSIZE="$(ccache -s | grep -i "cache size" | grep -Eo '[0-9.]+ %')"
-CCACHE_HITSIZE="$(ccache -s | grep -i "hit" | grep -Eo '[0-9.]+%')"
+CCACHE_TOTALSIZE=$(ccache -s | awk '/Cache size \(GB\):/ {match($0, /\(([0-9]+\.[0-9]+) %\)/, cache); print cache[1]}')
+CCACHE_HITSIZE=$(ccache -s | awk '/Primary storage:/ {getline; match($0, /\(([0-9]+\.[0-9]+) %\)/, hits); print hits[1]}')
 if [[ "${CCACHE_TOTALSIZE%.*}" -eq "0" ]]; then
     collect_ccache;
 else
