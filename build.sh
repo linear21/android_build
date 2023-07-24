@@ -13,10 +13,11 @@ export RCLONE_FOLDER="ci-test"
 # Set build user and host name.
 export BUILD_USERNAME="minerva"
 export BUILD_HOSTNAME="android-build"
+export USER="minerva"
 
 # Set up build command.
-export LUNCH_TARGET="lunch arrow_merlinx-user"
-export MAKE_TARGET="m bacon -j16"
+export LUNCH_TARGET="lunch aospa_merlinx-userdebug"
+export MAKE_TARGET="./rom-build.sh merlinx -t userdebug -j16"
 ### Edit above this line. ###
 
 # Download previous ccache.
@@ -31,10 +32,10 @@ cd ~/android
 
 ### Edit below this line. ###
 # Initialize local repository.
-repo init --no-repo-verify --depth=1 -u https://github.com/ArrowOS-six/android_manifest.git -b arrow-13.1 -g default,-mips,-darwin,-notdefault
+repo init --no-repo-verify --depth=1 -u https://github.com/AOSPA/manifest -b topaz -g default,-mips,-darwin,-notdefault
 
 # Initialize local manifest.
-git clone --depth=1 https://github.com/linear21/local_manifests.git -b arrow-13.1 .repo/local_manifests
+git clone --depth=1 https://github.com/linear21/local_manifests.git -b topaz .repo/local_manifests
 ### Edit above this line. ###
 
 # Start sync local source.
@@ -76,13 +77,11 @@ function final_build() {
 
 # Prepare build environment.
 . build/envsetup.sh
+rm -rf hardware/google/pixel/kernel_headers
 
 # Lunch a device target.
 $LUNCH_TARGET
 export SKIP_ABI_CHECKS=true
-
-# Repopick
-repopick -t thirteen-mtk-enhancements-arrow-13.1
 
 # Set up ccache.
 export CCACHE_DIR=~/.ccache
