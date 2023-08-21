@@ -16,8 +16,8 @@ export BUILD_HOSTNAME="android-build"
 export USER="minerva"
 
 # Set up build command.
-export LUNCH_TARGET="lunch aospa_merlinx-userdebug"
-export MAKE_TARGET="./rom-build.sh merlinx -t userdebug -j16"
+export LUNCH_TARGET="lunch eleon_merlinx-userdebug"
+export MAKE_TARGET="m bacon -j16"
 ### Edit above this line. ###
 
 # Download previous ccache.
@@ -32,10 +32,10 @@ cd ~/android
 
 ### Edit below this line. ###
 # Initialize local repository.
-repo init --no-repo-verify --depth=1 -u https://github.com/AOSPA/manifest -b topaz -g default,-mips,-darwin,-notdefault
+repo init --no-repo-verify --depth=1 -u https://github.com/EleonOS/android_manifest.git -b thirteen -g default,-mips,-darwin,-notdefault
 
 # Initialize local manifest.
-git clone --depth=1 https://github.com/linear21/local_manifests.git -b topaz .repo/local_manifests
+git clone --depth=1 https://github.com/linear21/local_manifests.git -b eleon .repo/local_manifests
 ### Edit above this line. ###
 
 # Start sync local source.
